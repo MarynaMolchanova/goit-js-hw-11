@@ -1,0 +1,119 @@
+@import '~node_modules/modern-normalize/modern-normalize.css';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
+  color: #212121;
+  line-height: 1.5;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #c3a3d0;
+  padding: 30px 0;
+  z-index: 1;
+}
+
+.search-form {
+  position: relative;
+  width: 300px;
+  margin: 0 auto;
+}
+
+input {
+  width: 100%;
+  height: 42px;
+  padding-left: 10px;
+  border: 2px solid #43124a;
+  border-radius: 5px;
+  outline: none;
+  background-color: #f9f0da;
+  color: #310b5a;
+  transition: border 250ms linear;
+
+  &:hover,
+  &:focus {
+    border: 2px solid #65d8e5;
+  }
+}
+
+.btn-submit {
+  position: absolute;
+  top: 0;
+  right: 0px;
+  width: 42px;
+  height: 42px;
+  border: none;
+  background-color: #43124a;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  transition: background-color 250ms linear;
+
+  &:before {
+    content: '\1F50D';
+    font-family: FontAwesome;
+    font-size: 16px;
+    color: #f9f0da;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: #65d8e5;
+  }
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  max-width: 1140px;
+  grid-gap: 20px;
+  padding-top: 120px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
+}
+
+.photo-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 490px;
+  height: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+
+  transition: transform 250ms linear;
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+.gallery__image {
+  display: block;
+  width: 490px;
+  max-width: 100%;
+  height: 300px;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.info {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background-color: #f9f0da;
+}
