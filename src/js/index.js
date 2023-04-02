@@ -51,9 +51,26 @@ function response(response) {
   }
   if (response.totalHits === 0) {
     notify.failure();
+  } else if (response.hits.length === 0) {
+    notify.info();
+  } else if (response.totalHits <= searchApiService.par_page) {
+    createGalleryCardList(response);
+    notify.info();
   } else {
     createGalleryCardList(response);
+    window.scrollBy();
   }
+}
+
+function smothScroll() {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
 }
 
 function createGalleryCardList(items) {
@@ -68,7 +85,11 @@ async function checkPosition() {
   const scrolled = window.scrollY;
   const threshold = height - screenHeight / 4;
   const position = scrolled + screenHeight;
+
   if (position >= threshold) {
-    await searchApiService.fetchSearchQuery().then(response).catch(error);
+    await searchApiService
+      .fetchSearchQuery()
+      .then(response)
+      .catch(notify.info());
   }
 }
