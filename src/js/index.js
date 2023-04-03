@@ -12,6 +12,7 @@ const refs = {
   gallery: document.querySelector('.gallery'),
   form: document.querySelector('.search-form'),
   photoCard: document.querySelector('.photo-card'),
+  sentinel: document.querySelector('#sentinel'),
 };
 
 const gallery = new SimpleLightbox('.gallery a', {
@@ -58,20 +59,10 @@ function response(response) {
     notify.info();
   } else {
     createGalleryCardList(response);
-    window.scrollBy();
+    refs.sentinel.style.display = 'block';
   }
 }
-
-function smothScroll() {
-  const { height: cardHeight } = document
-    .querySelector('.gallery')
-    .firstElementChild.getBoundingClientRect();
-
-  window.scrollBy({
-    top: cardHeight * 2,
-    behavior: 'smooth',
-  });
-}
+refs.sentinel.style.display = 'block';
 
 function createGalleryCardList(items) {
   const galleryList = renderGalleryCard(items);
