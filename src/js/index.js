@@ -24,11 +24,24 @@ const searchApiService = new SearchApiService();
 const notify = new NotifyMessage();
 const THROTTLE_DELAY = 300;
 let searchValue = '';
+let totalHitsCheck = 0;
 
 refs.form.addEventListener('submit', onSubmitForm);
 // window.addEventListener('scroll', throttle(checkPosition, THROTTLE_DELAY));
 
 AOS.init();
+
+const options = {
+  rootMargin: '300px',
+};
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && searchValue !== '') {
+      handleLoad();
+    }
+  });
+}, options);
 
 async function onSubmitForm(event) {
   event.preventDefault();
@@ -43,6 +56,9 @@ async function onSubmitForm(event) {
     }
     searchApiService.resetPage();
     const fetch = await searchApiService.fetchSearchQuery();
+    console.log(fetch);
+    totalHitsCheck = fetch.totalHits;
+    observer.observe(refs.sentinel);
     response(fetch);
   } catch (error) {
     notify.failure();
@@ -94,25 +110,14 @@ async function checkPosition() {
 
 async function handleLoad() {
   let response;
+  if (Math.ceil(totalHitsCheck / 40 < searchApiService.page - 1)) {
+    observer.unobserve(refs.sentinel);
+    return notify.info();
+  }
   try {
     response = await searchApiService.fetchSearchQuery();
     createGalleryCardList(response);
   } catch (e) {
-    console.log('here', response);
-    throw new Error(e.message);
     notify.failure(e.message);
   }
 }
-
-const options = {
-  rootMargin: '300px',
-};
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && searchValue !== '') {
-      handleLoad();
-    }
-  });
-}, options);
-observer.observe(refs.sentinel);
