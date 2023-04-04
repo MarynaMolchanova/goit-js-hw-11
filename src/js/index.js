@@ -78,20 +78,12 @@ async function checkPosition() {
   const threshold = height - screenHeight / 4;
   const position = scrolled + screenHeight;
 
-  //   if (position >= threshold) {
-  //     await searchApiService
-  //       .fetchSearchQuery()
-  //       .then(response)
-  //       .catch(notify.info());
-  //   }
-  // }
 
   let obj;
   try {
     if (position >= threshold) {
       obj = await searchApiService.fetchSearchQuery();
       response(obj);
-      // console.log(obj);
     }
   } catch (error) {
     notify.info();
